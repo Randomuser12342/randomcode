@@ -2,26 +2,23 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Full Page Blockly Workspace</title>
-    <!-- Load Blockly core -->
+    <title>RandomCode - Editor</title>
+    <!-- Load Blockly core and required components -->
     <script src="https://unpkg.com/blockly/blockly_compressed.js"></script>
-    <!-- Load the default blocks -->
     <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
-    <!-- Load a generator (e.g., JavaScript) -->
     <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
-    <!-- Load a language (e.g., English) -->
     <script src="https://unpkg.com/blockly/msg/en.js"></script>
-    <!-- Set the Blockly area to fill the full page -->
+    <!-- Add CSS to make Blockly fill the full page -->
     <style>
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: hidden; /* Prevent scrollbars from appearing */
+            overflow: hidden;
         }
         #blocklyDiv {
-            height: 100vh; /* 100% of the viewport height */
-            width: 100vw; /* 100% of the viewport width */
+            height: 100vh;
+            width: 100vw;
             position: absolute;
         }
     </style>
@@ -30,28 +27,50 @@
     <div id="blocklyDiv"></div>
 
     <script>
+        // Initialize Blockly with a toolbox
         var workspace = Blockly.inject('blocklyDiv', {
             toolbox: document.getElementById('toolbox')
         });
-        const toolbox = {
-        // There are two kinds of toolboxes. The simpler one is a flyout toolbox.
-          kind: 'flyoutToolbox',
-        // The contents is the blocks and other items that exist in your toolbox.
-         contents: [
-           {
-             kind: 'block',
-                 type: 'controls_if'
-           },
-         {
-            kind: 'block',
-           type: 'controls_whileUntil'
-          }
-          // You can add more blocks to this array.
-          ]
-        };
 
-// The toolbox gets passed to the configuration struct during injection.
-const workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+        // Function to generate JavaScript code from blocks
+        function generateCode() {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            alert(code);
+        }
+
+        // Function to save blocks to local storage
+        function saveWorkspace() {
+            var xml = Blockly.Xml.workspaceToDom(workspace);
+            var xml_text = Blockly.Xml.domToText(xml);
+            localStorage.setItem('blocklyWorkspace', xml_text);
+        }
+
+        // Function to load blocks from local storage
+        function loadWorkspace() {
+            var xml_text = localStorage.getItem('blocklyWorkspace');
+            if (xml_text) {
+                var xml = Blockly.Xml.textToDom(xml_text);
+                Blockly.Xml.domToWorkspace(xml, workspace);
+            }
+        }
+
+        // Add a button to generate code
+        var button = document.createElement('button');
+        button.textContent = 'Generate JavaScript Code';
+        button.onclick = generateCode;
+        document.body.appendChild(button);
+
+        // Add a button to save workspace
+        var saveButton = document.createElement('button');
+        saveButton.textContent = 'Save Blocks';
+        saveButton.onclick = saveWorkspace;
+        document.body.appendChild(saveButton);
+
+        // Add a button to load workspace
+        var loadButton = document.createElement('button');
+        loadButton.textContent = 'Load Blocks';
+        loadButton.onclick = loadWorkspace;
+        document.body.appendChild(loadButton);
     </script>
 
     <!-- Define your Blockly toolbox here -->
