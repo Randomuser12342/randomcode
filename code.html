@@ -61,13 +61,11 @@
     <!-- Custom blocks -->
   </xml>
   <script>
-    theme: Blockly.Theme.defineTheme('zelos', {
-    blockStyles: {}
-    })
-
     var workspace = Blockly.inject('blocklyDiv', {
-      toolbox: document.getElementById('toolbox')
-    });
+      toolbox: document.getElementById('toolbox'),
+      theme: Blockly.Theme.defineTheme('zelos', {
+        blockStyles: {}
+      })
   </script>
 </body>
 </html>
