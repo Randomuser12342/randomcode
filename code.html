@@ -18,14 +18,49 @@
 <body>
   <div id="blocklyDiv"></div>
   <xml id="toolbox" style="display: none">
-    <!-- Define your blocks here -->
-    <!-- Example: -->
-    <!-- <block type="controls_if"></block> -->
+    <!-- Default blocks -->
+    <category name="Logic" colour="#5C81A6">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+    </category>
+    <category name="Math" colour="#5C68A6">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_trig"></block>
+    </category>
+    <!-- Custom blocks -->
+    <category name="Custom Blocks" colour="#5C67A3">
+      <block type="my_custom_block"></block>
+    </category>
   </xml>
   <script>
     var workspace = Blockly.inject('blocklyDiv', {
       toolbox: document.getElementById('toolbox')
     });
+
+    // Define your custom block
+    Blockly.Blocks['my_custom_block'] = {
+      init: function() {
+        this.appendDummyInput()
+            .appendField("My Custom Block");
+        this.setInputsInline(true);
+        this.setOutput(true, null);
+        this.setColour(230);
+        this.setTooltip("");
+        this.setHelpUrl("");
+      }
+    };
+
+    // Define the JavaScript code generator for your custom block
+    Blockly.JavaScript['my_custom_block'] = function(block) {
+      // Generate JavaScript code for your custom block
+      var code = 'console.log("This is my custom block");\n';
+      return code;
+    };
   </script>
 </body>
 </html>
