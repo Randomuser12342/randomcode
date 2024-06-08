@@ -6,9 +6,17 @@
   <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
   <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/blockly/blockly.css">
+  <style>
+    html, body, #blocklyDiv {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
 </head>
 <body>
-  <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+  <div id="blocklyDiv"></div>
   <xml id="toolbox" style="display: none">
     <!-- Define your blocks here -->
     <!-- Example: -->
