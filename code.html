@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Code Editor</title>
+    <title>Full Page Blockly Workspace</title>
     <!-- Load Blockly core -->
     <script src="https://unpkg.com/blockly/blockly_compressed.js"></script>
     <!-- Load the default blocks -->
@@ -11,12 +11,18 @@
     <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
     <!-- Load a language (e.g., English) -->
     <script src="https://unpkg.com/blockly/msg/en.js"></script>
-    <!-- Add some basic styling for the Blockly area -->
+    <!-- Set the Blockly area to fill the full page -->
     <style>
-        #blocklyDiv {
+        html, body {
+            margin: 0;
+            padding: 0;
             height: 100%;
-            width: 100%;
-            border: 1px solid black;
+            overflow: hidden; /* Prevent scrollbars from appearing */
+        }
+        #blocklyDiv {
+            height: 100vh; /* 100% of the viewport height */
+            width: 100vw; /* 100% of the viewport width */
+            position: absolute;
         }
     </style>
 </head>
@@ -27,6 +33,25 @@
         var workspace = Blockly.inject('blocklyDiv', {
             toolbox: document.getElementById('toolbox')
         });
+        const toolbox = {
+        // There are two kinds of toolboxes. The simpler one is a flyout toolbox.
+          kind: 'flyoutToolbox',
+        // The contents is the blocks and other items that exist in your toolbox.
+         contents: [
+           {
+             kind: 'block',
+                 type: 'controls_if'
+           },
+         {
+            kind: 'block',
+           type: 'controls_whileUntil'
+          }
+          // You can add more blocks to this array.
+          ]
+        };
+
+// The toolbox gets passed to the configuration struct during injection.
+const workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
     </script>
 
     <!-- Define your Blockly toolbox here -->
