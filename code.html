@@ -1,83 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>RandomCode - Editor</title>
-    <!-- Load Blockly core and required components -->
-    <script src="https://unpkg.com/blockly/blockly_compressed.js"></script>
-    <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
-    <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
-    <script src="https://unpkg.com/blockly/msg/en.js"></script>
-    <!-- Add CSS to make Blockly fill the full page -->
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-        #blocklyDiv {
-            height: 480px;
-            width: 600px;
-        }
-    </style>
+  <title>RandomCode - Editor</title>
+  <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+  <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
+  <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/blockly/blockly.css">
 </head>
 <body>
-    <div id="blocklyDiv"></div>
-
-    <script>
-        // Initialize Blockly with a toolbox
-        var workspace = Blockly.inject('blocklyDiv', {
-            toolbox: document.getElementById('toolbox')
-        });
-
-        // Function to generate JavaScript code from blocks
-        function generateCode() {
-            var code = Blockly.JavaScript.workspaceToCode(workspace);
-            alert(code);
-        }
-
-        // Function to save blocks to local storage
-        function saveWorkspace() {
-            var xml = Blockly.Xml.workspaceToDom(workspace);
-            var xml_text = Blockly.Xml.domToText(xml);
-            localStorage.setItem('blocklyWorkspace', xml_text);
-        }
-
-        // Function to load blocks from local storage
-        function loadWorkspace() {
-            var xml_text = localStorage.getItem('blocklyWorkspace');
-            if (xml_text) {
-                var xml = Blockly.Xml.textToDom(xml_text);
-                Blockly.Xml.domToWorkspace(xml, workspace);
-            }
-        }
-
-        // Add a button to generate code
-        var button = document.createElement('button');
-        button.textContent = 'Generate JavaScript Code';
-        button.onclick = generateCode;
-        document.body.appendChild(button);
-
-        // Add a button to save workspace
-        var saveButton = document.createElement('button');
-        saveButton.textContent = 'Save Blocks';
-        saveButton.onclick = saveWorkspace;
-        document.body.appendChild(saveButton);
-
-        // Add a button to load workspace
-        var loadButton = document.createElement('button');
-        loadButton.textContent = 'Load Blocks';
-        loadButton.onclick = loadWorkspace;
-        document.body.appendChild(loadButton);
-    </script>
-
-    <!-- Define your Blockly toolbox here -->
-    <xml id="toolbox" style="display: none">
-        <!-- Add your Blockly blocks here -->
-        <block type="controls_if"></block>
-        <block type="logic_compare"></block>
-        <!-- More blocks... -->
-    </xml>
+  <h1>Blockly Interface</h1>
+  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+  <xml id="toolbox" style="display: none">
+    <!-- Define your blocks here -->
+    <!-- Example: -->
+    <!-- <block type="controls_if"></block> -->
+  </xml>
+  <script>
+    var workspace = Blockly.inject('blocklyDiv', {
+      toolbox: document.getElementById('toolbox')
+    });
+  </script>
 </body>
 </html>
