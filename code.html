@@ -5,7 +5,6 @@
   <script src="https://unpkg.com/blockly/blockly.min.js"></script>
   <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
   <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
-  <script src="https://unpkg.com/blockly-plugins-scratch-blocks/dist/scratch_blocks.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/blockly/blockly.css">
   <style>
     html, body, #blocklyDiv {
@@ -62,6 +61,10 @@
     <!-- Custom blocks -->
   </xml>
   <script>
+    theme: Blockly.Theme.defineTheme('zelos', {
+    blockStyles: {}
+    })
+
     var workspace = Blockly.inject('blocklyDiv', {
       toolbox: document.getElementById('toolbox')
     });
