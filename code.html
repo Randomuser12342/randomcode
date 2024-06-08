@@ -35,7 +35,7 @@
     <category name="Text" colour="#5CA68D">
         <block type="text"></block>
         <block type="text_join"></block>
-        <block type="test_length"></block>
+        <block type="text_length"></block>
     </category>
     <category name="Lists" colour="#745CA6">
         <block type="lists_create_empty"></block>
@@ -47,7 +47,7 @@
         <block type="variables_get"></block>
         <block type="variables_set"></block>
     </category>
-    <category name="Procedures" colour="#9900AA">
+    <category name="Advanced" colour="#000000">
         <block type="procedures_defnoreturn"></block>
         <block type="procedures_defreturn"></block>
         <block type="procedures_callnoreturn"></block>
@@ -59,34 +59,11 @@
         <block type="colour_rgb"></block>
     </category>
     <!-- Custom blocks -->
-    <category name="Custom Blocks" colour="#5C67A3">
-      <block type="my_custom_block"></block>
-    </category>
   </xml>
   <script>
     var workspace = Blockly.inject('blocklyDiv', {
       toolbox: document.getElementById('toolbox')
     });
-
-    // Define your custom block
-    Blockly.Blocks['my_custom_block'] = {
-      init: function() {
-        this.appendDummyInput()
-            .appendField("My Custom Block");
-        this.setInputsInline(true);
-        this.setOutput(true, null);
-        this.setColour(230);
-        this.setTooltip("");
-        this.setHelpUrl("");
-      }
-    };
-
-    // Define the JavaScript code generator for your custom block
-    Blockly.JavaScript['my_custom_block'] = function(block) {
-      // Generate JavaScript code for your custom block
-      var code = 'console.log("This is my custom block");\n';
-      return code;
-    };
   </script>
 </body>
 </html>
