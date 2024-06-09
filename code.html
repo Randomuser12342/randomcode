@@ -137,6 +137,27 @@
       }
     }
 
+
+    Blockly.Blocks['alert_block'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Alert")
+        .appendField(new Blockly.FieldTextInput("Hello"), "TEXT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['alert_block'] = function(block) {
+  var text_text = block.getFieldValue('TEXT');
+  var code = 'alert(' + JSON.stringify(text_text) + ');\n';
+  return code;
+};
+
+
     Blockly.Blocks['when_script_ran'] = {
       init: function() {
         this.appendDummyInput()
