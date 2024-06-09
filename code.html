@@ -114,7 +114,6 @@
     <category name="Functions" custom="PROCEDURE" colour="#9A5CA6"></category>
     <!-- Custom blocks -->
     <category name="Custom" colour="#FF5733">
-      <block type="alert_block"></block>
       <block type="when_script_ran"></block>
     </category>
   </xml>
@@ -138,42 +137,25 @@
     }
 
 
-    Blockly.Blocks['alert_block'] = {
+    
+
+Blockly.Blocks['when_script_ran'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Alert")
-        .appendField(new Blockly.FieldTextInput("Hello"), "TEXT");
-    this.setPreviousStatement(true, null);
+        .appendField("When Script Ran");
+    this.setColour(230);
     this.setNextStatement(true, null);
-    this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
   }
 };
 
-Blockly.JavaScript['alert_block'] = function(block) {
-  var text_text = block.getFieldValue('TEXT');
-  var code = 'alert(' + JSON.stringify(text_text) + ');\n';
+Blockly.JavaScript['when_script_ran'] = function(block) {
+  // Generate JavaScript code to trigger when the script is run
+  var code = 'runCode();\n';
   return code;
 };
 
-
-    Blockly.Blocks['when_script_ran'] = {
-      init: function() {
-        this.appendDummyInput()
-            .appendField("When Script Ran");
-        this.setColour(230);
-        this.setNextStatement(true, null);
-        this.setTooltip("");
-        this.setHelpUrl("");
-      }
-    };
-
-    Blockly.JavaScript['when_script_ran'] = function(block) {
-      // Generate JavaScript code to trigger when the script is run
-      var code = 'runCode();\n';
-      return code;
-    };
   </script>
 </body>
 </html>
