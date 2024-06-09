@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Blockly with Stack Blocks</title>
+  <title>RandomCode Editor</title>
   <script src="https://unpkg.com/blockly/blockly.min.js"></script>
   <script src="https://unpkg.com/blockly/msg/en.js"></script>
   <script src="https://unpkg.com/blockly/javascript.min.js"></script>
@@ -36,12 +36,6 @@
     #runButton {
       top: 10px;
     }
-    #alertButton {
-      top: 60px;
-    }
-    #customAction {
-      top: 110px;
-    }
     #codeArea {
       display: none;
     }
@@ -52,12 +46,6 @@
   
   <!-- Run button -->
   <button id="runButton" class="control-button" onclick="runCode()">Run</button>
-  
-  <!-- Alert button -->
-  <button id="alertButton" class="control-button" onclick="showAlert()">Alert</button>
-  
-  <!-- Custom Action block -->
-  <button id="customAction" class="control-button" onclick="performCustomAction()">Custom Action</button>
   
   <!-- Element to display the generated code -->
   <pre id="codeArea"></pre>
@@ -127,7 +115,7 @@
     <!-- Custom blocks -->
     <category name="Custom" colour="#FF5733">
       <block type="alert_block"></block>
-      <block type="custom_action"></block>
+      <block type="when_script_ran"></block>
     </category>
   </xml>
   
@@ -149,29 +137,20 @@
       }
     }
 
-    function showAlert() {
-      alert("Hello, world!");
-    }
-
-    function performCustomAction() {
-      // Add your custom action here
-      console.log("Custom action executed!");
-    }
-
-    Blockly.Blocks['custom_action'] = {
+    Blockly.Blocks['when_script_ran'] = {
       init: function() {
         this.appendDummyInput()
-            .appendField("Custom Action");
-        this.setPreviousStatement(true, null);
+            .appendField("When Script Ran");
         this.setColour(230);
+        this.setNextStatement(true, null);
         this.setTooltip("");
         this.setHelpUrl("");
       }
     };
 
-    Blockly.JavaScript['custom_action'] = function(block) {
-      // Generate JavaScript code for custom action
-      var code = 'performCustomAction();\n';
+    Blockly.JavaScript['when_script_ran'] = function(block) {
+      // Generate JavaScript code to trigger when the script is run
+      var code = 'runCode();\n';
       return code;
     };
   </script>
