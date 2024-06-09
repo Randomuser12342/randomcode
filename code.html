@@ -36,6 +36,12 @@
     #runButton {
       top: 10px;
     }
+    #alertButton {
+      top: 60px;
+    }
+    #customAction {
+      top: 110px;
+    }
     #codeArea {
       display: none;
     }
@@ -46,6 +52,12 @@
   
   <!-- Run button -->
   <button id="runButton" class="control-button" onclick="runCode()">Run</button>
+  
+  <!-- Alert button -->
+  <button id="alertButton" class="control-button" onclick="showAlert()">Alert</button>
+  
+  <!-- Custom Action block -->
+  <button id="customAction" class="control-button" onclick="performCustomAction()">Custom Action</button>
   
   <!-- Element to display the generated code -->
   <pre id="codeArea"></pre>
@@ -115,6 +127,7 @@
     <!-- Custom blocks -->
     <category name="Custom" colour="#FF5733">
       <block type="alert_block"></block>
+      <block type="custom_action"></block>
     </category>
   </xml>
   
@@ -136,22 +149,29 @@
       }
     }
 
-    Blockly.Blocks['alert_block'] = {
+    function showAlert() {
+      alert("Hello, world!");
+    }
+
+    function performCustomAction() {
+      // Add your custom action here
+      console.log("Custom action executed!");
+    }
+
+    Blockly.Blocks['custom_action'] = {
       init: function() {
         this.appendDummyInput()
-            .appendField("alert")
-            .appendField(new Blockly.FieldTextInput("Hello, world!"), "MESSAGE");
+            .appendField("Custom Action");
         this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
         this.setColour(230);
         this.setTooltip("");
         this.setHelpUrl("");
       }
     };
 
-    Blockly.JavaScript['alert_block'] = function(block) {
-      var text_message = block.getFieldValue('MESSAGE');
-      var code = 'alert(' + JSON.stringify(text_message) + ');\n';
+    Blockly.JavaScript['custom_action'] = function(block) {
+      // Generate JavaScript code for custom action
+      var code = 'performCustomAction();\n';
       return code;
     };
   </script>
