@@ -22,6 +22,14 @@
   <!-- Define workspace container -->
   <div id="blocklyDiv" style="width: 100%; height: 100vh;"></div>
 
+  <!-- Define toolbox -->
+  <xml id="toolbox" style="display: none">
+    <!-- Add default blocks -->
+    <category name="Default">
+      <!-- Add blocks dynamically using JavaScript -->
+    </category>
+  </xml>
+
   <script>
     // Initialize Blockly
     var workspace = Blockly.inject('blocklyDiv', {
@@ -42,12 +50,9 @@
       }
     }
 
-    // Create toolbox XML
-    var toolboxXml = '<xml>' + defaultBlocks + '</xml>';
-    var toolbox = Blockly.Xml.textToDom(toolboxXml);
-
-    // Set toolbox
-    workspace.updateToolbox(toolbox);
+    // Add default blocks to toolbox
+    var toolboxXml = document.getElementById('toolbox');
+    toolboxXml.innerHTML = '<xml><category name="Default">' + defaultBlocks + '</category></xml>';
   </script>
 </body>
 </html>
