@@ -186,6 +186,26 @@
       });
     }
 
+    // Handle key press events
+    document.addEventListener('keydown', function(event) {
+      const keyName = event.key;
+      const allBlocks = workspace.getTopBlocks(true);
+      const keyPressedBlocks = allBlocks.filter(block => block.type === 'event_key_pressed' && block.getFieldValue('KEY') === keyName);
+      keyPressedBlocks.forEach(block => {
+        let code = '';
+        let nextBlock = block.getNextBlock();
+        while (nextBlock) {
+          code += Blockly.JavaScript.blockToCode(nextBlock);
+          nextBlock = nextBlock.getNextBlock();
+        }
+        try {
+          eval(code);
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    });
+
     // Add event listener to the Run button
     document.getElementById('runButton').addEventListener('click', runCode);
   </script>
