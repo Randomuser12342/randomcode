@@ -16,6 +16,21 @@
     .blocklyWorkspace .blocklyGrid {
       stroke: #ddd;
     }
+    html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* This will prevent scrollbars */
+    }
+
+    .blocklyWorkspace .blocklyGrid .blocklyMainBackground {
+      width: 100vw;
+     height: 100dvh; /* Using dvh to adjust for dynamic viewport changes */
+      position: fixed;
+      top: 0;
+     left: 0;
+    }
+
   </style>
 </head>
 <body>
