@@ -5,6 +5,7 @@
   <script src="https://unpkg.com/blockly/blockly.min.js"></script>
   <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
   <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
+  <script src="https://unpkg.com/@blockly/field-colour/dist/index.js"></script>
   <style>
     /* Ensure full screen without margins or padding */
     html, body {
@@ -108,10 +109,15 @@
       <block type="event_key_pressed"></block>
       <block type="event_script_ran"></block>
     </category>
+    <category name="Actions">
+      <block type="action_change_bg_color"></block>
+      <block type="action_show_alert"></block>
+      <block type="action_log_message"></block>
+    </category>
   </xml>
 
   <script>
-    // Define custom blocks
+    // Define custom event blocks
     Blockly.Blocks['event_key_pressed'] = {
       init: function() {
         this.appendDummyInput()
@@ -140,6 +146,65 @@
         this.setTooltip("");
         this.setHelpUrl("");
       }
+    };
+
+    // Define custom action blocks
+    Blockly.Blocks['action_change_bg_color'] = {
+      init: function() {
+        this.appendDummyInput()
+            .appendField("change background color to")
+            .appendField(new Blockly.FieldColour("#ff0000"), "COLOR");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(160);
+        this.setTooltip("");
+        this.setHelpUrl("");
+      }
+    };
+
+    Blockly.Blocks['action_show_alert'] = {
+      init: function() {
+        this.appendValueInput("TEXT")
+            .setCheck("String")
+            .appendField("show alert with message");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(160);
+        this.setTooltip("");
+        this.setHelpUrl("");
+      }
+    };
+
+    Blockly.Blocks['action_log_message'] = {
+      init: function() {
+        this.appendValueInput("TEXT")
+            .setCheck("String")
+            .appendField("log message");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(160);
+        this.setTooltip("");
+        this.setHelpUrl("");
+      }
+    };
+
+    // Define JavaScript generators for custom action blocks
+    Blockly.JavaScript['action_change_bg_color'] = function(block) {
+      var color = block.getFieldValue('COLOR');
+      var code = `document.body.style.backgroundColor = '${color}';\n`;
+      return code;
+    };
+
+    Blockly.JavaScript['action_show_alert'] = function(block) {
+      var text = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC);
+      var code = `alert(${text});\n`;
+      return code;
+    };
+
+    Blockly.JavaScript['action_log_message'] = function(block) {
+      var text = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC);
+      var code = `console.log(${text});\n`;
+      return code;
     };
 
     // Initialize Blockly with zoom controls
@@ -181,32 +246,12 @@
         try {
           eval(code);
         } catch (e) {
-          console.error(e);
+          console.error('Error executing block code:', e);
         }
       });
     }
 
-    // Handle key press events
-    document.addEventListener('keydown', function(event) {
-      const keyName = event.key;
-      const allBlocks = workspace.getTopBlocks(true);
-      const keyPressedBlocks = allBlocks.filter(block => block.type === 'event_key_pressed' && block.getFieldValue('KEY') === keyName);
-      keyPressedBlocks.forEach(block => {
-        let code = '';
-        let nextBlock = block.getNextBlock();
-        while (nextBlock) {
-          code += Blockly.JavaScript.blockToCode(nextBlock);
-          nextBlock = nextBlock.getNextBlock();
-        }
-        try {
-          eval(code);
-        } catch (e) {
-          console.error(e);
-        }
-      });
-    });
-
-    // Add event listener to the Run button
+    // Attach event listener to the Run button
     document.getElementById('runButton').addEventListener('click', runCode);
   </script>
 </body>
