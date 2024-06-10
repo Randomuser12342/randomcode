@@ -5,7 +5,6 @@
   <script src="https://unpkg.com/blockly/blockly.min.js"></script>
   <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
   <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
-  <script src="https://unpkg.com/@blockly/field-colour/dist/index.js"></script> <!-- Color block plugin -->
   <style>
     /* Ensure full screen without margins or padding */
     html, body {
@@ -13,81 +12,21 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
-      font-family: Arial, sans-serif; /* Use a child-friendly font */
     }
     #blocklyDiv {
       width: 100%;
-      height: calc(100% - 40px); /* Adjust for the size of the toolbox */
+      height: 100%;
       position: absolute;
       top: 0;
       left: 0;
     }
-    #toolbox {
-      width: 100%;
-      height: 40px;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      background-color: #f0f0f0; /* Light background for toolbox */
-      border-top: 1px solid #c0c0c0; /* Darker border at the top */
-      display: flex;
-      justify-content: space-around; /* Distribute categories evenly */
-      align-items: center; /* Center the items vertically */
-    }
     #runButton {
-      background-color: #4caf50; /* Green background for the run button */
-      border: 2px solid #388e3c; /* Darker green border */
-      color: white;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 999;
       font-size: 16px;
       padding: 10px 20px;
-      border-radius: 5px; /* Rounded corners */
-      cursor: pointer;
-      transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-    }
-    #runButton:hover {
-      background-color: #45a049; /* Darker green on hover */
-    }
-    .blocklyTreeRow {
-      background-color: #f0f0f0; /* Light background for toolbox categories */
-      border-bottom: 1px solid #c0c0c0; /* Darker border between categories */
-      padding: 5px 10px; /* Add some padding to each category */
-    }
-    .blocklyTreeRowContent {
-      font-size: 14px; /* Adjust font size for category labels */
-    }
-    .blocklyTreeLabel {
-      color: #333; /* Darker color for category labels */
-    }
-    .blocklyTreeRow:not(:last-child) {
-      border-bottom: none; /* Remove border from the last category */
-    }
-    .blocklyTreeRowSelected {
-      background-color: #e0e0e0; /* Lighter background when category is selected */
-    }
-    .blocklyFlyoutBackground {
-      fill: #ffffff; /* White background for block palette */
-    }
-    .blocklyFlyoutButton {
-      fill: #c0c0c0; /* Light grey for block palette buttons */
-      stroke: #000000; /* Black stroke for block palette buttons */
-    }
-    .blocklyFlyoutButton:hover {
-      fill: #b0b0b0; /* Slightly darker grey on hover */
-    }
-    .blocklyScrollbarVertical {
-      fill: #e0e0e0; /* Light grey for vertical scrollbar */
-    }
-    .blocklyScrollbarHandle {
-      fill: #c0c0c0; /* Darker grey for scrollbar handle */
-    }
-    .blocklyScrollbarHandle:hover {
-      fill: #b0b0b0; /* Slightly darker grey on hover */
-    }
-    .blocklyZoom>image {
-      fill: #666666; /* Darker grey for zoom controls */
-    }
-    .blocklyZoom>image:hover {
-      fill: #555555; /* Slightly darker grey on hover */
     }
   </style>
 </head>
@@ -169,18 +108,10 @@
       <block type="event_key_pressed"></block>
       <block type="event_script_ran"></block>
     </category>
-    <category name="Actions">
-      <block type="action_change_bg_color"></block>
-      <block type="action_show_alert"></block>
-      <block type="action_log_message"></block>
-    </category>
   </xml>
 
-  <!-- Define Run button -->
-  <button id="runButton">Run</button>
-
   <script>
-    // Define custom event blocks
+    // Define custom blocks
     Blockly.Blocks['event_key_pressed'] = {
       init: function() {
         this.appendDummyInput()
@@ -190,9 +121,7 @@
               ["f","f"], ["g","g"], ["h","h"], ["i","i"], ["j","j"],
               ["k","k"], ["l","l"], ["m","m"], ["n","n"], ["o","o"],
               ["p","p"], ["q","q"], ["r","r"], ["s","s"], ["t","t"],
-              ["u","u"], ["v","v"], ["w","w"], ["x","x"], ["y","y"],
-              ["z","z"], ["Space"," "], ["Left Arrow", "ArrowLeft"], ["Right Arrow", "ArrowRight"],
-              ["Up Arrow", "ArrowUp"], ["Down Arrow", "ArrowDown"]
+              ["u","u"], ["v","v"], ["w","w"], ["x","x"], ["y","y"], ["z","z"]
             ]), "KEY")
             .appendField("key pressed");
         this.setNextStatement(true, null);
@@ -211,65 +140,6 @@
         this.setTooltip("");
         this.setHelpUrl("");
       }
-    };
-
-    // Define custom action blocks
-    Blockly.Blocks['action_change_bg_color'] = {
-      init: function() {
-        this.appendDummyInput()
-            .appendField("change background color to")
-            .appendField(new Blockly.FieldColour("#ff0000"), "COLOR");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(160);
-        this.setTooltip("");
-        this.setHelpUrl("");
-      }
-    };
-
-    Blockly.Blocks['action_show_alert'] = {
-      init: function() {
-        this.appendValueInput("TEXT")
-            .setCheck("String")
-            .appendField("show alert with message");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(160);
-        this.setTooltip("");
-        this.setHelpUrl("");
-      }
-    };
-
-    Blockly.Blocks['action_log_message'] = {
-      init: function() {
-        this.appendValueInput("TEXT")
-            .setCheck("String")
-            .appendField("log message");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(160);
-        this.setTooltip("");
-        this.setHelpUrl("");
-      }
-    };
-
-    // Define JavaScript generators for custom action blocks
-    Blockly.JavaScript['action_change_bg_color'] = function(block) {
-      var color = block.getFieldValue('COLOR');
-      var code = `document.body.style.backgroundColor = '${color}';\n`;
-      return code;
-    };
-
-    Blockly.JavaScript['action_show_alert'] = function(block) {
-      var text = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC);
-      var code = `alert(${text});\n`;
-      return code;
-    };
-
-    Blockly.JavaScript['action_log_message'] = function(block) {
-      var text = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC);
-      var code = `console.log(${text});\n`;
-      return code;
     };
 
     // Initialize Blockly with zoom controls
@@ -311,12 +181,32 @@
         try {
           eval(code);
         } catch (e) {
-          console.error('Error executing block code:', e);
+          console.error(e);
         }
       });
     }
 
-    // Attach event listener to the Run button
+    // Handle key press events
+    document.addEventListener('keydown', function(event) {
+      const keyName = event.key.toLowerCase();
+      const allBlocks = workspace.getTopBlocks(true);
+      const keyPressedBlocks = allBlocks.filter(block => block.type === 'event_key_pressed' && block.getFieldValue('KEY') === keyName);
+      keyPressedBlocks.forEach(block => {
+        let code = '';
+        let nextBlock = block.getNextBlock();
+        while (nextBlock) {
+          code += Blockly.JavaScript.blockToCode(nextBlock);
+          nextBlock = nextBlock.getNextBlock();
+        }
+        try {
+          eval(code);
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    });
+
+    // Add event listener to the Run button
     document.getElementById('runButton').addEventListener('click', runCode);
   </script>
 </body>
