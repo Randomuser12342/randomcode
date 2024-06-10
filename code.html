@@ -16,12 +16,26 @@
     #blocklyDiv {
       width: 100%;
       height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    #runButton {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 999;
+      font-size: 16px;
+      padding: 10px 20px;
     }
   </style>
 </head>
 <body>
   <!-- Define workspace container -->
   <div id="blocklyDiv"></div>
+
+  <!-- Define Run button -->
+  <button id="runButton">Run</button>
 
   <!-- Define toolbox -->
   <xml id="toolbox" style="display: none">
@@ -90,19 +104,90 @@
     </category>
     <category name="Variables" custom="VARIABLE"></category>
     <category name="Functions" custom="PROCEDURE"></category>
+    <category name="Events">
+      <block type="event_key_pressed"></block>
+      <block type="event_script_ran"></block>
+    </category>
   </xml>
 
   <script>
-    // Initialize Blockly
+    // Define custom blocks
+    Blockly.Blocks['event_key_pressed'] = {
+      init: function() {
+        this.appendDummyInput()
+            .appendField("when")
+            .appendField(new Blockly.FieldDropdown([
+              ["a","a"], ["b","b"], ["c","c"], ["d","d"], ["e","e"],
+              ["f","f"], ["g","g"], ["h","h"], ["i","i"], ["j","j"],
+              ["k","k"], ["l","l"], ["m","m"], ["n","n"], ["o","o"],
+              ["p","p"], ["q","q"], ["r","r"], ["s","s"], ["t","t"],
+              ["u","u"], ["v","v"], ["w","w"], ["x","x"], ["y","y"], ["z","z"]
+            ]), "KEY")
+            .appendField("key pressed");
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip("");
+        this.setHelpUrl("");
+      }
+    };
+
+    Blockly.Blocks['event_script_ran'] = {
+      init: function() {
+        this.appendDummyInput()
+            .appendField("when script ran");
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip("");
+        this.setHelpUrl("");
+      }
+    };
+
+    // Initialize Blockly with zoom controls
     var workspace = Blockly.inject('blocklyDiv', {
       toolbox: document.getElementById('toolbox'),
       grid: {
         spacing: 20,
         length: 1,
-        colour: '#000000',
-        snap: false
+        colour: '#ddd',
+        snap: true
+      },
+      zoom: {
+        controls: true,
+        wheel: true,
+        startScale: 1.0,
+        maxScale: 3,
+        minScale: 0.3,
+        scaleSpeed: 1.2
       }
     });
+
+    // Define the function to run the code below the 'when script ran' block
+    function runCode() {
+      // Clear console
+      console.clear();
+
+      // Get all blocks
+      const allBlocks = workspace.getTopBlocks(true);
+      // Find all 'when script ran' blocks
+      const eventScriptRanBlocks = allBlocks.filter(block => block.type === 'event_script_ran');
+      // Execute the blocks connected to 'when script ran'
+      eventScriptRanBlocks.forEach(block => {
+        let code = '';
+        let nextBlock = block.getNextBlock();
+        while (nextBlock) {
+          code += Blockly.JavaScript.blockToCode(nextBlock);
+          nextBlock = nextBlock.getNextBlock();
+        }
+        try {
+          eval(code);
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    }
+
+    // Add event listener to the Run button
+    document.getElementById('runButton').addEventListener('click', runCode);
   </script>
 </body>
 </html>
