@@ -11,15 +11,15 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100vh; /* Ensure body fills the entire viewport height */
             overflow: hidden;
             position: relative; /* Ensure proper positioning of absolute elements */
         }
 
         #blocklyContainer {
             position: relative;
-            width: 100%;
-            height: calc(100% - 50px); /* Adjust to leave space for the button */
+            width: 100dvw;
+            height: 100dvh; /* Adjust to leave space for the button */
             overflow: hidden;
         }
 
