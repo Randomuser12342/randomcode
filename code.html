@@ -368,6 +368,19 @@
             var workspace = Blockly.inject('blocklyDiv', {
                 toolbox: document.getElementById('toolbox'),
                 renderer: 'zelos' // Set default renderer to 'zelos'
+                zoom: {
+                 controls: true, // Whether to display zoom controls
+                 wheel: true,    // Whether to enable zooming using the mouse wheel
+                 startScale: 1.0, // Initial zoom scale (1.0 = 100%)
+                 maxScale: 3.0,  // Maximum allowed zoom scale
+                 minScale: 0.3   // Minimum allowed zoom scale
+                }
+                grid: {
+                    spacing: 20,
+                    length: 3,
+                    colour: '#ccc',
+                    snap: true
+                }
             });
 
             document.getElementById('runButton').addEventListener('click', function() {
