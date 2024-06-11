@@ -16,8 +16,15 @@
             position: relative; /* Ensure proper positioning of absolute elements */
         }
 
-        #blocklyDiv {
+        #blocklyContainer {
+            position: relative;
+            width: 100%;
             height: calc(100% - 50px); /* Adjust to leave space for the button */
+            overflow: hidden;
+        }
+
+        #blocklyDiv {
+            height: 100%;
             width: 100%;
             overflow: hidden;
         }
@@ -34,12 +41,17 @@
             background-color: green;
             color: white;
             border-radius: 5px;
-            z-index: 1;
+            z-index: 1; /* Ensure button is above Blockly workspace */
         }
     </style>
 </head>
 <body>
-    <div id="blocklyDiv"></div>
+    <div id="blocklyContainer">
+        <div id="blocklyDiv"></div>
+
+        <!-- Run Code Button -->
+        <button id="runButton">Run Code</button>
+    </div>
 
     <!-- Define the toolbox -->
     <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
@@ -360,9 +372,6 @@
       <category name="Variables" colour="#a55b80" custom="VARIABLE"></category>
       <category name="Functions" colour="#995ba5" custom="PROCEDURE"></category>
     </xml>
-
-    <!-- Run Code Button -->
-    <button id="runButton">Run Code</button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
