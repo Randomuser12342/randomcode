@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Blockly Renderer Change</title>
+    <title>Blockly Example</title>
     <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
+    <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
     <style>
         /* Fullscreen styles */
         html, body {
@@ -15,35 +17,30 @@
         }
 
         #blocklyDiv {
-            width: 100%; /* Adjust as needed */
-            height: 100%;
+            height: calc(100% - 50px); /* Adjust to leave space for the button */
+            width: 100%;
             overflow: hidden;
-            float: left;
         }
 
-        /* Run Code Button styles */
         #runButton {
             position: absolute;
-            top: 10px; /* Adjust as needed */
-            right: 20px; /* Adjust as needed */
-            background-color: green;
-            color: white;
-            border: none;
+            bottom: 0;
+            right: 0;
+            margin: 10px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            border: none;
+            background-color: green;
+            color: white;
             border-radius: 5px;
-            z-index: 1; /* Ensure the button appears above Blockly */
         }
     </style>
 </head>
 <body>
     <div id="blocklyDiv"></div>
 
-    <!-- Run Code Button -->
-    <button id="runButton">Run Code</button>
-
-    <!-- Toolbox Definition -->
+    <!-- Define the toolbox -->
     <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
       <category name="Logic" colour="#5b80a5">
         <block type="controls_if"></block>
@@ -363,27 +360,25 @@
       <category name="Functions" colour="#995ba5" custom="PROCEDURE"></category>
     </xml>
 
+    <!-- Run Code Button -->
+    <button id="runButton">Run Code</button>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var workspace = Blockly.inject('blocklyDiv', {
-                toolbox: document.getElementById('toolbox'),
-                renderer: 'zelos' // Set default renderer to 'zelos'
-                horizontalLayout: true
-                zoom: {
-                 controls: true, // Whether to display zoom controls
-                 wheel: true,    // Whether to enable zooming using the mouse wheel
-                 startScale: 1.0, // Initial zoom scale (1.0 = 100%)
-                 maxScale: 3.0,  // Maximum allowed zoom scale
-                 minScale: 0.3   // Minimum allowed zoom scale
-                }
-                grid: {
-                    spacing: 20,
-                    length: 3,
-                    colour: '#ccc',
-                    snap: true
-                }
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if the BlocklyDiv and the toolbox exist
+            var blocklyDiv = document.getElementById('blocklyDiv');
+            var toolbox = document.getElementById('toolbox');
+            if (!blocklyDiv || !toolbox) {
+                console.error('Unable to find blocklyDiv or toolbox element.');
+                return;
+            }
+
+            // Define the Blockly workspace
+            var workspace = Blockly.inject(blocklyDiv, {
+                toolbox: toolbox
             });
 
+            // Run Code Button Event Listener
             document.getElementById('runButton').addEventListener('click', function() {
                 // Generate JavaScript code from the blocks
                 var code = Blockly.JavaScript.workspaceToCode(workspace);
